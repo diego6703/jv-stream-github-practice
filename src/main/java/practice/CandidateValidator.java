@@ -9,19 +9,15 @@ public class CandidateValidator implements Predicate<Candidate> {
     private static final String REQUIRED_NATIONALITY = "Ukrainian";
 
     private int getTimeInUkraine(String period) {
-        int sum = 0;
         if (period != null) {
-            String[] periods = period.split(",");
-            for (String singlePeriod : periods) {
-                String[] dates = singlePeriod.split("-");
-                if (dates.length == 2) {
-                    int from = Integer.parseInt(dates[0].trim());
-                    int to = Integer.parseInt(dates[1].trim());
-                    sum += to - from;
-                }
+            String[] dates = period.split("-");
+            if (dates.length == 2) {
+                int from = Integer.parseInt(dates[0]);
+                int to = Integer.parseInt(dates[1]);
+                return to - from;
             }
         }
-        return sum;
+        return 0;
     }
 
     @Override
