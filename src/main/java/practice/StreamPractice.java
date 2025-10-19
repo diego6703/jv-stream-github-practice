@@ -19,10 +19,10 @@ public class StreamPractice {
     public int findMinEvenNumber(List<String> numbers) {
         return numbers.stream()
                 .flatMap(l -> Arrays.stream(l.split(",")))
-                .map(String::trim)
-                .mapToInt(Integer::parseInt)
+                .mapToInt(s -> Integer.parseInt(s.trim()))
                 .filter(n -> n % 2 == 0)
-                .min().orElseThrow(() -> new RuntimeException(
+                .min()
+                .orElseThrow(() -> new RuntimeException(
                         "Can't get min value from list: " + numbers));
     }
 
@@ -35,7 +35,8 @@ public class StreamPractice {
         return IntStream.range(0, numbers.size())
                 .map(i -> i % 2 != 0 ? numbers.get(i) - 1 : numbers.get(i))
                 .filter(n -> n % 2 != 0)
-                .average().getAsDouble();
+                .average()
+                .getAsDouble();
     }
 
     /**
@@ -48,7 +49,8 @@ public class StreamPractice {
      */
     public List<Person> selectMenByAge(List<Person> peopleList, int fromAge, int toAge) {
         return peopleList.stream()
-                .filter(p -> p.getSex() == Person.Sex.MAN && p.getAge() <= toAge
+                .filter(p -> p.getSex() == Person.Sex.MAN
+                        && p.getAge() <= toAge
                         && p.getAge() >= fromAge)
                 .toList();
     }
@@ -66,9 +68,9 @@ public class StreamPractice {
     public List<Person> getWorkablePeople(int fromAge, int femaleToAge,
                                           int maleToAge, List<Person> peopleList) {
         return peopleList.stream()
-                .filter(p -> p.getSex() == Person.Sex.MAN
-                        ? (p.getAge() >= fromAge && p.getAge() <= maleToAge)
-                        : (p.getAge() >= fromAge && p.getAge() <= femaleToAge))
+                .filter(p -> p.getAge() >= fromAge
+                        && (p.getSex() == Person.Sex.MAN ? p.getAge() <= maleToAge
+                        : p.getAge() <= femaleToAge))
                 .toList();
     }
 
